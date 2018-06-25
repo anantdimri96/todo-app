@@ -10,10 +10,15 @@ module.exports = {
       .then(todoItem => res.status(201).send(todoItem))
       .catch(todoItem => res.status(400).send(todoItem))
   },
-  list(req,res) {
-    return TodoItem
-      .all()
-      .then(todoItems => res.status(200).send(todoItems))
-      .catch(error => res.status(400).send(error));
-  },
+  list(req, res) {
+  return Todo
+    .findAll({
+      include: [{
+        model: TodoItem,
+        as: 'todoItems',
+      }],
+    })
+    .then(todos => res.status(200).send(todos))
+    .catch(error => res.status(400).send(error));
+},
 }
